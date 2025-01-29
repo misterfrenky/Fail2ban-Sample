@@ -21,7 +21,7 @@ protocol = tcp
 action    = discord_notifications[webhook=%(discord_webhook)s, hostname=%(discord_hostname)s]
             iptables-allports
 
-discord_webhook=https://discord.com/api/webhooks/1330835921028780074/2qV2sMxWtP6015KLEfbCjx5BGssEY11sUAgm3EX_OduP7oveLURcl3AhJ7yE4Unz-7JX
+discord_webhook=https://discord.com/api/webhooks/xxxx/xxx
 discord_hostname=Fail2Ban
 
 
