@@ -1,0 +1,55 @@
+[INCLUDES]
+before = paths-common.conf
+
+[DEFAULT]
+ignorecommand =
+ignoreip  = 127.0.0.1/8 ::1
+bantime   = 3600
+findtime  = 600
+maxretry  = 5
+maxmatches = %(maxretry)s
+backend = auto
+usedns = warn
+logencoding = auto
+enabled = false
+mode = normal
+filter = %(__name__)s[mode=%(mode)s]
+destemail = root@localhost
+sender = root@<fq-hostname>
+mta = sendmail
+protocol = tcp
+action    = discord_notifications[webhook=%(discord_webhook)s, hostname=%(discord_hostname)s]
+            iptables-allports
+
+discord_webhook=https://discord.com/api/webhooks/1330835921028780074/2qV2sMxWtP6015KLEfbCjx5BGssEY11sUAgm3EX_OduP7oveLURcl3AhJ7yE4Unz-7JX
+discord_hostname=Fail2Ban
+
+
+
+# JAILS
+# [<name>]
+# bantime : <int> [seconds] || <int>h [hour]
+# maxretry : <int> times in <int>(second)
+
+# Nginx
+[nginx-ddos]
+enabled   = true
+port      = http,https
+filter    = nginx-limit-req
+logpath   = %(nginx_access_log)s
+findtime  = 30
+maxretry  = 20
+bantime   = 60
+action    = discord_notifications[webhook=%(discord_webhook)s, hostname=%(discord_hostname)s]
+            iptables-allports
+
+# ssh
+[ssh-ddos]
+enabled   = true
+port      = ssh
+filter    = sshd
+logpath   = /var/log/auth.log
+bantime   = 600
+maxretry  = 5
+action    = discord_notifications[webhook=%(discord_webhook)s, hostname=%(discord_hostname)s]
+            iptables-allports
